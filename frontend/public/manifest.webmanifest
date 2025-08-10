@@ -1,0 +1,9 @@
+{
+  "name": "NariFinance",
+  "short_name": "NariFinance",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#7c3aed",
+  "icons": []
+}
