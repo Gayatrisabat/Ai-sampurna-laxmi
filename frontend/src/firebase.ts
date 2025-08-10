@@ -11,7 +11,26 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
 }
 
-const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig)
+export const isFirebaseConfigured = Boolean(
+  firebaseConfig.apiKey &&
+  firebaseConfig.authDomain &&
+  firebaseConfig.projectId &&
+  firebaseConfig.appId
+)
 
-export const auth = getAuth(app)
-export const db = getFirestore(app)
+let app: ReturnType<typeof initializeApp> | undefined
+let authInst: ReturnType<typeof getAuth> | undefined
+let dbInst: ReturnType<typeof getFirestore> | undefined
+
+try {
+  if (isFirebaseConfigured) {
+    app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig)
+    authInst = getAuth(app)
+    dbInst = getFirestore(app)
+  }
+} catch {
+  // ignore init errors in demo mode
+}
+
+export const auth = authInst as any
+export const db = dbInst as any
